@@ -1,0 +1,179 @@
+bind_host: 0.0.0.0
+bind_port: 3000
+beta_bind_port: 0
+users:
+- name: biki
+  password: $2a$10$tWoBO0TR4DGx/lh.4tmmruLvE5aK0O4IMJTT2UpkFQ6UmaFw9JBSK
+http_proxy: ""
+language: ""
+rlimit_nofile: 0
+debug_pprof: false
+web_session_ttl: 720
+dns:
+  bind_host: 0.0.0.0
+  port: 2121
+  statistics_interval: 7
+  querylog_enabled: true
+  querylog_file_enabled: true
+  querylog_interval: 7
+  querylog_size_memory: 1000
+  anonymize_client_ip: false
+  protection_enabled: true
+  blocking_mode: default
+  blocking_ipv4: ""
+  blocking_ipv6: ""
+  blocked_response_ttl: 10
+  parental_block_host: family-block.dns.adguard.com
+  safebrowsing_block_host: standard-block.dns.adguard.com
+  ratelimit: 20
+  ratelimit_whitelist: []
+  refuse_any: true
+  upstream_dns:
+  - 114.114.114.114
+  - 114.114.115.115
+  - 101.226.4.6
+  - 180.76.76.76
+  - tls://dns.pub
+  - https://dns.pub/dns-query
+  - tls://dns.alidns.com
+  - https://dns.alidns.com/dns-query
+  - tls://8.8.8.8
+  - tls://8.8.4.4
+  - tls://dns.google
+  upstream_dns_file: ""
+  bootstrap_dns:
+  - 218.85.152.99
+  - 218.85.157.99
+  - 119.29.29.29
+  - 223.5.5.5
+  all_servers: true
+  fastest_addr: false
+  allowed_clients: []
+  disallowed_clients: []
+  blocked_hosts:
+  - version.bind
+  - id.server
+  - hostname.bind
+  cache_size: 4194304
+  cache_ttl_min: 0
+  cache_ttl_max: 0
+  bogus_nxdomain: []
+  aaaa_disabled: false
+  enable_dnssec: false
+  edns_client_subnet: false
+  max_goroutines: 300
+  ipset: []
+  filtering_enabled: true
+  filters_update_interval: 24
+  parental_enabled: false
+  safesearch_enabled: false
+  safebrowsing_enabled: false
+  safebrowsing_cache_size: 1048576
+  safesearch_cache_size: 1048576
+  parental_cache_size: 1048576
+  cache_time: 30
+  rewrites: []
+  blocked_services: []
+  customresolver: null
+tls:
+  enabled: false
+  server_name: ""
+  force_https: false
+  port_https: 443
+  port_dns_over_tls: 853
+  port_dns_over_quic: 784
+  port_dnscrypt: 0
+  dnscrypt_config_file: ""
+  allow_unencrypted_doh: false
+  strict_sni_check: false
+  certificate_chain: ""
+  private_key: ""
+  certificate_path: ""
+  private_key_path: ""
+filters:
+- enabled: false
+  url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+  name: AdGuard DNS filter
+  id: 1
+- enabled: false
+  url: https://adaway.org/hosts.txt
+  name: AdAway Default Blocklist
+  id: 2
+- enabled: false
+  url: https://www.malwaredomainlist.com/hostslist/hosts.txt
+  name: MalwareDomainList.com Hosts List
+  id: 4
+- enabled: true
+  url: https://easylist-downloads.adblockplus.org/easyprivacy.txt
+  name: EasyPrivacy 隐私保护
+  id: 1613396576
+- enabled: true
+  url: https://gitee.com/halflife/list/raw/master/ad.txt
+  name: HalfLife
+  id: 1613396577
+- enabled: true
+  url: https://anti-ad.net/easylist.txt
+  name: anti-AD
+  id: 1613660613
+whitelist_filters: []
+user_rules:
+- '@@||1688.com^$important'
+- '@@||hdsky.me^$important'
+- '@@||m-team.cc^$important'
+- '@@||springsunday.net^$important'
+- '@@||keepfrds.com^$important'
+- '@@||ourbits.club^$important'
+- '@@||hdhome.org^$important'
+- '@@|totheglory.im|^$important  '
+- '@@||hdchina.org^$important'
+- '@@||chdbits.co^$important'
+- '@@||dicmusic.club^$important'
+- '@@||hd4fans.org^$important'
+- '@@||dmhy.org^$important'
+- '@@||daydream.dmhy.best^$important'
+- '@@||pterclub.com^$important'
+- '@@||open.cd^$important'
+- '@@||gazellegames.net^$important'
+- '@@||nanyangpt.com^$important'
+- '@@||empornium.me^$important'
+- '@@||nicept.net^$important'
+- '@@||btschool.club^$important'
+- '@@||ccfbits.org^$important'
+- '@@||upxin.net^$important'
+- '@@||095095.xyz^$important'
+- /googleads.$~script,domain=~googleads.github.io
+- /pagead/lvz?
+- '||google.com/pagead/'
+- '||static.doubleclick.net^$domain=youtube.com'
+- '||youtube.com/get_midroll_'
+- '||youtube.com/api/stats/ads'
+- '||youtube.com/pagead/adview'
+- '||yt3.ggpht.com^'
+- '||youtube.com/pcs/activeview'
+- '||youtube.com/get_video_info'
+- '||pgdt.gtimg.cn/gdt/0^$app=com.tencent.qqmusic'
+dhcp:
+  enabled: false
+  interface_name: ""
+  dhcpv4:
+    gateway_ip: ""
+    subnet_mask: ""
+    range_start: ""
+    range_end: ""
+    lease_duration: 86400
+    icmp_timeout_msec: 1000
+    options: []
+  dhcpv6:
+    range_start: ""
+    lease_duration: 86400
+    ra_slaac_only: false
+    ra_allow_slaac: false
+clients: []
+log_compress: false
+log_localtime: false
+log_max_backups: 0
+log_max_size: 100
+log_max_age: 3
+log_file: ""
+verbose: false
+schema_version: 7

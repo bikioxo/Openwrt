@@ -1,0 +1,14 @@
+
+config ddns 'global'
+	option ddns_dateformat '%F %R'
+	option ddns_loglines '250'
+	option upd_privateip '0'
+
+config service 'Mydns'
+	option service_name 'dnspod.cn'
+	option enabled '1'
+	option lookup_host 'www.095095.xyz'
+	option username '218441'
+	option password 'debcae65c69cf872e616e81e22e6e971'
+	option domain 'www.095095.xyz'
+

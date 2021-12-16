@@ -1,0 +1,523 @@
+
+config defaults
+	option syn_flood '1'
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option fullcone '1'
+	option flow_offloading_hw '0'
+	option flow_offloading '0'
+	option forward 'REJECT'
+
+config zone
+	option name 'lan'
+	list network 'lan'
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option forward 'ACCEPT'
+
+config zone
+	option name 'wan'
+	list network 'wan'
+	list network 'wan6'
+	option output 'ACCEPT'
+	option forward 'REJECT'
+	option masq '1'
+	option mtu_fix '1'
+	option input 'REJECT'
+
+config forwarding
+	option src 'lan'
+	option dest 'wan'
+
+config rule
+	option name 'Allow-DHCP-Renew'
+	option src 'wan'
+	option proto 'udp'
+	option dest_port '68'
+	option target 'ACCEPT'
+	option family 'ipv4'
+
+config rule
+	option name 'Allow-Ping'
+	option src 'wan'
+	option proto 'icmp'
+	option icmp_type 'echo-request'
+	option family 'ipv4'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-IGMP'
+	option src 'wan'
+	option proto 'igmp'
+	option family 'ipv4'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-DHCPv6'
+	option src 'wan'
+	option proto 'udp'
+	option src_ip 'fc00::/6'
+	option dest_ip 'fc00::/6'
+	option dest_port '546'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-MLD'
+	option src 'wan'
+	option proto 'icmp'
+	option src_ip 'fe80::/10'
+	list icmp_type '130/0'
+	list icmp_type '131/0'
+	list icmp_type '132/0'
+	list icmp_type '143/0'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-ICMPv6-Input'
+	option src 'wan'
+	option proto 'icmp'
+	list icmp_type 'echo-request'
+	list icmp_type 'echo-reply'
+	list icmp_type 'destination-unreachable'
+	list icmp_type 'packet-too-big'
+	list icmp_type 'time-exceeded'
+	list icmp_type 'bad-header'
+	list icmp_type 'unknown-header-type'
+	list icmp_type 'router-solicitation'
+	list icmp_type 'neighbour-solicitation'
+	list icmp_type 'router-advertisement'
+	list icmp_type 'neighbour-advertisement'
+	option limit '1000/sec'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-ICMPv6-Forward'
+	option src 'wan'
+	option dest '*'
+	option proto 'icmp'
+	list icmp_type 'echo-request'
+	list icmp_type 'echo-reply'
+	list icmp_type 'destination-unreachable'
+	list icmp_type 'packet-too-big'
+	list icmp_type 'time-exceeded'
+	list icmp_type 'bad-header'
+	list icmp_type 'unknown-header-type'
+	option limit '1000/sec'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-IPSec-ESP'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'esp'
+	option target 'ACCEPT'
+
+config rule
+	option name 'Allow-ISAKMP'
+	option src 'wan'
+	option dest 'lan'
+	option dest_port '500'
+	option proto 'udp'
+	option target 'ACCEPT'
+
+config include
+	option path '/etc/firewall.user'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '8848'
+	option dest_ip '10.10.10.1'
+	option dest_port '443'
+	option name 'Lede'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '3000'
+	option dest_ip '10.10.10.1'
+	option dest_port '3000'
+	option name 'Adguard Home'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '5001'
+	option dest_ip '10.10.10.10'
+	option dest_port '5001'
+	option name 'Synology'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.10'
+	option name 'WebDav'
+	option src_dport '5008'
+	option dest_port '5008'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '6690'
+	option dest_ip '10.10.10.10'
+	option dest_port '6690'
+	option name 'Drive'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '9'
+	option dest_ip '10.10.10.10'
+	option dest_port '9'
+	option name 'DS Finder'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '5757'
+	option dest_ip '10.10.10.10'
+	option dest_port '5757'
+	option name 'Transmission'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '6767'
+	option dest_ip '10.10.10.10'
+	option dest_port '6767'
+	option name 'Transmission'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '8801'
+	option dest_ip '10.10.10.10'
+	option dest_port '8801'
+	option name 'DS Aduio'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '25'
+	option dest_ip '10.10.10.10'
+	option dest_port '25'
+	option name 'SMTP'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '143'
+	option dest_ip '10.10.10.10'
+	option dest_port '143'
+	option name 'IMAP'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '110'
+	option dest_ip '10.10.10.10'
+	option dest_port '110'
+	option name 'POP3'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '465'
+	option dest_ip '10.10.10.10'
+	option dest_port '465'
+	option name 'SMTP-SSL'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '587'
+	option dest_ip '10.10.10.10'
+	option dest_port '587'
+	option name 'SMTP-TLS'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '993'
+	option dest_ip '10.10.10.10'
+	option dest_port '993'
+	option name 'SSL/TLSIMAP'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '995'
+	option dest_ip '10.10.10.10'
+	option dest_port '995'
+	option name 'SSL/TLSPOP3'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.10'
+	option name 'MailPlus'
+	option src_dport '5678'
+	option dest_port '5678'
+
+config include 'adbyby'
+	option type 'script'
+	option path '/var/etc/adbyby.include'
+	option reload '1'
+
+config rule 'adblock'
+	option name 'adblock'
+	option target 'DROP'
+	option src 'wan'
+	option proto 'tcp'
+	option dest_port '8118'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.100'
+	option name 'QNAP'
+	option src_dport '6789'
+	option dest_port '6789'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.100'
+	option name 'Transmission'
+	option src_dport '5252'
+	option dest_port '5252'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.100'
+	option name 'QTransmission'
+	option src_dport '1133'
+	option dest_port '1133'
+
+config include 'miniupnpd'
+	option type 'script'
+	option path '/usr/share/miniupnpd/firewall.include'
+	option family 'any'
+	option reload '1'
+
+config include 'mia'
+	option type 'script'
+	option path '/etc/mia.include'
+	option reload '1'
+
+config include 'passwall'
+	option type 'script'
+	option path '/var/etc/passwall.include'
+	option reload '1'
+
+config include 'passwall_server'
+	option type 'script'
+	option path '/var/etc/passwall_server.include'
+	option reload '1'
+
+config include 'shadowsocksr'
+	option type 'script'
+	option path '/var/etc/shadowsocksr.include'
+	option reload '1'
+
+config include 'unblockmusic'
+	option type 'script'
+	option path '/var/etc/unblockmusic.include'
+	option reload '1'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.100'
+	option name 'Qnap Webdav'
+	option src_dport '6009'
+	option dest_port '6009'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.100'
+	option name 'Qnap Webdav'
+	option src_dport '6010'
+	option dest_port '6010'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '6363'
+	option dest_ip '10.10.10.100'
+	option dest_port '6363'
+	option name 'qb'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option dest_ip '10.10.10.100'
+	option name 'QVPN'
+	option src_dport '2002'
+	option dest_port '2002'
+	option proto 'tcp udp'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '3001'
+	option dest_ip '10.10.10.103'
+	option dest_port '3001'
+	option name 'Hack Synology'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '3389'
+	option dest_ip '10.10.10.110'
+	option dest_port '3389'
+	option name 'Win10 LTSB'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option name 'Win10'
+	option proto 'tcp'
+	option dest_ip '10.10.10.8'
+	option src_dport '3399'
+	option dest_port '3399'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option dest_ip '10.10.10.103'
+	option name 'SVPN'
+	option proto 'tcp'
+	option src_dport '1198'
+	option dest_port '1198'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.199'
+	option name 'VCN'
+	option src_dport '5901'
+	option dest_port '5901'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '5858'
+	option dest_ip '10.10.10.100'
+	option dest_port '5858'
+	option name 'qb'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '8099'
+	option dest_ip '10.10.10.100'
+	option dest_port '8099'
+	option name 'Jellyfin'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '32400'
+	option dest_ip '10.10.10.100'
+	option dest_port '32400'
+	option name 'PLEX'
+	option enabled '0'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option dest_ip '10.10.10.100'
+	option name 'PLEX'
+	option dest_port '32400'
+	option src_dport '22200'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '666'
+	option dest_ip '10.10.10.100'
+	option dest_port '666'
+	option name 'Heimdall'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp udp'
+	option src_dport '6001'
+	option dest_ip '10.10.10.100'
+	option dest_port '6001'
+	option name 'WebDav'
+
